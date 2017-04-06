@@ -42,8 +42,14 @@ function initShaders() {
 
   gl.useProgram(shaderProgram);
 
-  shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, 'uPMatrix');
-  shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, 'uMVMatrix');
+  shaderProgram.vertexPositionAttribute =
+      gl.getAttribLocation(shaderProgram, 'aVertexPosition');
+  gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+  shaderProgram.pMatrixUniform =
+      gl.getUniformLocation(shaderProgram, 'uPMatrix');
+  shaderProgram.mvMatrixUniform =
+      gl.getUniformLocation(shaderProgram, 'uMVMatrix');
 }
 
 
