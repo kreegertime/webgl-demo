@@ -8,13 +8,16 @@ function _createShader(type, shaderSrc) {
   return shader;
 }
 
+
 function createFragmentShader(shaderSrc) {
   return _createShader(gl.FRAGMENT_SHADER, shaderSrc);
 }
 
+
 function createVertexShader(shaderSrc) {
   return _createShader(gl.VERTEX_SHADER, shaderSrc);
 }
+
 
 function initWebGL(elementId) {
   // TODO(kreeger): It this the correct context name?
@@ -26,5 +29,10 @@ function initWebGL(elementId) {
   gl.viewportWidth = element.width;
   gl.viewportHeight = element.height;
   return gl;
+}
+
+
+function degToRad(degrees) {
+  return degrees * Math.PI / 180;
 }
 

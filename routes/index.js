@@ -10,5 +10,8 @@ router.get('/', function(req, res, next) {
 router.get('/1', (req, res, next) => {
   res.render('one');
 });
+router.get('/4', (req, res, next) => {
+  res.render('four');
+});
 
 module.exports = router;
