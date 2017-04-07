@@ -45,6 +45,47 @@ const CUBE_VERTEX_INDICES = [
   20, 21, 22,   20, 22, 23  // Left face
 ];
 
+const CUBE_TEXTURE_COORDS = [
+  // Front face
+  0.0, 0.0,
+  1.0, 0.0,
+  1.0, 1.0,
+  0.0, 1.0,
+
+  // Back face
+  1.0, 0.0,
+  1.0, 1.0,
+  0.0, 1.0,
+  0.0, 0.0,
+
+  // Top face
+  0.0, 1.0,
+  0.0, 0.0,
+  1.0, 0.0,
+  1.0, 1.0,
+
+  // Bottom face
+  1.0, 1.0,
+  0.0, 1.0,
+  0.0, 0.0,
+  1.0, 0.0,
+
+  // Right face
+  1.0, 0.0,
+  1.0, 1.0,
+  0.0, 1.0,
+  0.0, 0.0,
+
+  // Left face
+  0.0, 0.0,
+  1.0, 0.0,
+  1.0, 1.0,
+  0.0, 1.0,
+  ];
+
+
+
+
 const _CUBE_COLORS = [
   [1.0, 0.0, 0.0, 1.0], // Front face
   [1.0, 1.0, 0.0, 1.0], // Back face
@@ -62,8 +103,13 @@ for (var i in _CUBE_COLORS) {
 
 const CUBE_VERTICES_SIZE = 3;
 const CUBE_VERTICES_ITEMS = 24;
+
 const CUBE_VERTEX_INDICES_SIZE = 1;
 const CUBE_VERTEX_INDICES_ITEMS = 36;
+
+const CUBE_TEXTURE_COORDS_SIZE = 2;
+const CUBE_TEXTURE_COORDS_ITEMS = 24;
+
 const CUBE_COLOR_SIZE = 4;
 const CUBE_COLOR_ITEMS = 24;
 
