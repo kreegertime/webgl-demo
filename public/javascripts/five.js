@@ -39,7 +39,7 @@ let cubeVertexPositionBuffer;
 let cubeVertexTextureCoordBuffer;
 let cubeVertexIndexBuffer;
 
-let neheTexture;
+let texture;
 
 let lastTime = 0;
 let xRot = 0;
@@ -95,24 +95,23 @@ function initBuffers() {
 }
 
 
-function handleLoadedTexture(texture) {
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-  gl.bindTexture(gl.TEXTURE_2D, null);
-}
+function initTexture(callback) {
+  texture = gl.createTexture();
+  texture.image = new Image();
+  texture.image.onload = () => {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.bindTexture(gl.TEXTURE_2D, null);
 
+    callback();
+  };
 
-function initTexture() {
-  neheTexture = gl.createTexture();
-  neheTexture.image = new Image();
-  neheTexture.image.onload = function() {
-    handleLoadedTexture(neheTexture);
-  }
-
-  neheTexture.image.src = 'images/nehe.gif';
+  texture.image.src = 'images/frank1.png';
+  //texture.image.src = 'images/nehe.gif';
 }
 
 
@@ -139,7 +138,7 @@ function drawScene() {
       textureCoordAttribute, CUBE_TEXTURE_COORDS_SIZE, gl.FLOAT, false, 0, 0);
 
   gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, neheTexture);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.uniform1i(samplerUniform, 0);
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
@@ -172,11 +171,11 @@ function loadWebGL() {
 
   initShaders();
   initBuffers();
-  initTexture();
+  initTexture(() => {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
 
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  gl.enable(gl.DEPTH_TEST);
-
-  tick();
+    tick();
+  });
 }
 
