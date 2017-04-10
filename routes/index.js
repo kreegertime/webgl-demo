@@ -16,5 +16,8 @@ router.get('/4', (req, res, next) => {
 router.get('/5', (req, res, next) => {
   res.render('five');
 });
+router.get('/pitch', (req, res, next) => {
+  res.render('pitch');
+});
 
 module.exports = router;

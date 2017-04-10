@@ -31,6 +31,22 @@ function initWebGL(elementId) {
   return gl;
 }
 
+function initShaderProgram(gl, fragmentShaderSrc, vertexShaderSrc) {
+  let fragmentShader = createFragmentShader(fragmentShaderSrc);
+  let vertexShader = createVertexShader(vertexShaderSrc);
+
+  shaderProgram = gl.createProgram();
+  gl.attachShader(shaderProgram, fragmentShader);
+  gl.attachShader(shaderProgram, vertexShader);
+  gl.linkProgram(shaderProgram);
+
+  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+    throw 'Could not init shaders!';
+  }
+
+  gl.useProgram(shaderProgram);
+  return shaderProgram;
+}
 
 function degToRad(degrees) {
   return degrees * Math.PI / 180;

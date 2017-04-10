@@ -4,11 +4,13 @@ const VERTEX_SHADER_SRC =
 
     'uniform mat4 uMVMatrix;' +
     'uniform mat4 uPMatrix;' +
+    'uniform vec3 uVertexOffsetPosition;' +
 
     'varying vec2 vTextureCoord;' +
 
     'void main(void) {' +
-      'gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);' +
+      'vec4 vertexPosition = vec4(aVertexPosition, 1.0) + vec4(uVertexOffsetPosition, 1.0);' +
+      'gl_Position = uPMatrix * uMVMatrix * vertexPosition;' +
       'vTextureCoord = aTextureCoord;' +
     '}';
 
@@ -33,6 +35,7 @@ let vertexPositionAttribute;
 let textureCoordAttribute;
 let pMatrixUniform;
 let mvMatrixUniform;
+let vertexOffsetPositionUniform;
 let samplerUniform;
 
 let cubeVertexPositionBuffer;
@@ -42,6 +45,9 @@ let cubeVertexIndexBuffer;
 let texture;
 
 let lastTime = 0;
+let xMove = 0;
+let yMove = 10;
+let zMove = -50;
 let xRot = 0;
 let yRot = 0;
 let zRot = 0;
@@ -76,6 +82,7 @@ function initShaders() {
 
   pMatrixUniform = gl.getUniformLocation(shaderProgram, 'uPMatrix');
   mvMatrixUniform = gl.getUniformLocation(shaderProgram, 'uMVMatrix');
+  vertexOffsetPositionUniform = gl.getUniformLocation(shaderProgram, 'uVertexOffsetPosition');
   samplerUniform = gl.getUniformLocation(shaderProgram, 'uSampler');
 }
 
@@ -133,6 +140,8 @@ function drawScene() {
   gl.vertexAttribPointer(
       vertexPositionAttribute, CUBE_VERTICES_SIZE, gl.FLOAT, false, 0, 0);
 
+  gl.uniform3fv(vertexOffsetPositionUniform, [xMove, yMove, zMove]);
+
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
   gl.vertexAttribPointer(
       textureCoordAttribute, CUBE_TEXTURE_COORDS_SIZE, gl.FLOAT, false, 0, 0);
@@ -151,9 +160,11 @@ function animate() {
   let timeNow = new Date().getTime();
   if (lastTime != 0) {
     let elapsed = timeNow - lastTime;
-    xRot += (90 * elapsed) / 1000.0;
-    yRot += (90 * elapsed) / 1000.0;
-    zRot += (90 * elapsed) / 1000.0;
+    //xRot += (90 * elapsed) / 1000.0;
+    //yRot += (90 * elapsed) / 1000.0;
+    //zRot += (90 * elapsed) / 1000.0;
+    zMove += .05;
+    yMove += -.01;
   }
   lastTime = timeNow;
 }
